@@ -1,5 +1,6 @@
 package ba.sum.fpmoz.studytrack
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +70,12 @@ class RegisterActivity : AppCompatActivity() {
                                         "Registracija uspješna",
                                         Toast.LENGTH_SHORT
                                     ).show()
+
+                                    // Preusmjeravanje na LoginActivity
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    startActivity(intent)
+                                    finish()
                                 }
                                 .addOnFailureListener {
                                     Toast.makeText(
