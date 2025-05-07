@@ -1,0 +1,6 @@
+<resources>
+    <color name="colorPrimary">#2196F3</color> <!-- Plava boja -->
+    <color name="colorPrimaryDark">#1976D2</color> <!-- Tamnija plava -->
+    <color name="colorAccent">#64B5F6</color> <!-- Svijetla plava -->
+    <color name="white">#FFFFFF</color>
+</resources>

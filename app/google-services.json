@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "517846315141",
+    "project_id": "studytrack-af2fd",
+    "storage_bucket": "studytrack-af2fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517846315141:android:9fa484861950d55dd1b9ec",
+        "android_client_info": {
+          "package_name": "ba.sum.fpmoz.prijava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApuPex_mr4S-RNH76wpBJwdmSJ8gSxwbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517846315141:android:f427fa8b44f00950d1b9ec",
+        "android_client_info": {
+          "package_name": "ba.sum.fpmoz.studytrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApuPex_mr4S-RNH76wpBJwdmSJ8gSxwbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
