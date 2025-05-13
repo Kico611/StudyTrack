@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">StudyTrack</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+
+    <string name="default_web_client_id">517846315141-i83lqvqm1c3seor9vugq7e4dnladq0d1.apps.googleusercontent.com</string>
 </resources>
