@@ -50,8 +50,17 @@ dependencies {
 
     // ✅ Prava biblioteka za Google Sign-In
     implementation(libs.play.services.auth)
+    implementation(libs.firebase.inappmessaging)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // ✅ Navigation component
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    // ✅ Material components
+    implementation("com.google.android.material:material:1.12.0")
+
 }

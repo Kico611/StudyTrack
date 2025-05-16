@@ -14,18 +14,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyTrack"
         tools:targetApi="31">
-
-        <!-- Ako ikada dodaš Google Maps, Firebase Analytics itd., ovdje ide meta-data -->
-
+        <activity
+            android:name=".ProfileFragment"
+            android:exported="false" />
+        <activity
+            android:name=".CalendarFragment"
+            android:exported="false" />
+        <activity
+            android:name=".NotesFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ExamsFragment"
+            android:exported="false" />
+        <activity
+            android:name=".TasksFragment"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" /> <!-- Ako ikada dodaš Google Maps, Firebase Analytics itd., ovdje ide meta-data -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".RegisterActivity"
             android:exported="true" />

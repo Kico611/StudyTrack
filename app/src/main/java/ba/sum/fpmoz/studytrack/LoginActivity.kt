@@ -74,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Prijava uspješna", Toast.LENGTH_SHORT).show()
                         // startActivity(Intent(this, PocetnaActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                         // finish()
                     } else {
                         Toast.makeText(this, "Greška: ${task.exception?.message}", Toast.LENGTH_LONG).show()
@@ -117,6 +118,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Google prijava uspješna", Toast.LENGTH_SHORT).show()
                     // startActivity(Intent(this, PocetnaActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     // finish()
                 } else {
                     Toast.makeText(this, "Autentifikacija neuspješna: ${task.exception?.message}", Toast.LENGTH_LONG).show()

@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tasksFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Zadaci" />
+    <item
+        android:id="@+id/examsFragment"
+        android:icon="@drawable/ic_exams"
+        android:title="Ispiti" />
+    <item
+        android:id="@+id/notesFragment"
+        android:icon="@drawable/ic_notes"
+        android:title="Bilješke" />
+    <item
+        android:id="@+id/calendarFragment"
+        android:icon="@drawable/calendar_month_24px"
+        android:title="Kalendar" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
+        android:title="Profil" />
+</menu>
