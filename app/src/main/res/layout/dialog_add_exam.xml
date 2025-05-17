@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/examSubjectEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:hint="Predmet" />
+
+    <EditText
+        android:id="@+id/examDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:hint="Datum"
+        android:focusable="false"
+        android:clickable="true" />
+
+    <EditText
+        android:id="@+id/examNotesEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bilješke"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:maxLines="5" />
+
+</LinearLayout>
