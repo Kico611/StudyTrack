@@ -3,19 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp"
+    android:background="@drawable/bg_rounded_popup"
+    android:elevation="8dp"
+    android:clipToPadding="false">
 
     <EditText
         android:id="@+id/taskTitleEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Naslov" />
+        android:hint="Naslov"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
+        android:inputType="textCapSentences"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/taskDescriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Opis" />
+        android:hint="Opis"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/taskDueDateEditText"
@@ -24,5 +42,11 @@
         android:hint="Datum roka"
         android:focusable="false"
         android:clickable="true"
-        android:inputType="none" />
+        android:inputType="none"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"/>
+
 </LinearLayout>

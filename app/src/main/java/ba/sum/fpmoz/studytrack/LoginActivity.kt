@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.loginPasswordEditText)
         val loginButton = findViewById<Button>(R.id.loginButton)
         val createAccountButton = findViewById<Button>(R.id.createAccountButton)
-        val resetPasswordButton = findViewById<Button>(R.id.resetPasswordButton)
+        val resetPasswordButton = findViewById<TextView>(R.id.resetPasswordButton)
         val googleSignInButton = findViewById<com.google.android.gms.common.SignInButton>(R.id.googleSignInButton)
 
         // Konfiguracija Google sign-in klijenta

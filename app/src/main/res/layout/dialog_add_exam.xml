@@ -3,33 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="@drawable/bg_rounded_popup"
+    android:elevation="8dp"
+    android:clipToPadding="false">
 
     <EditText
         android:id="@+id/examSubjectEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:paddingVertical="12dp"
-        android:hint="Predmet" />
+        android:hint="Predmet"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
+        android:inputType="textCapWords"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/examDateEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:paddingVertical="12dp"
-        android:hint="Datum"
+        android:hint="Datum ispita"
         android:focusable="false"
-        android:clickable="true" />
+        android:clickable="true"
+        android:inputType="none"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/examNotesEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Bilješke"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
         android:inputType="textMultiLine"
-        android:minLines="2"
-        android:maxLines="5" />
+        android:minLines="3"/>
 
 </LinearLayout>

@@ -1,6 +1,12 @@
 <resources>
-    <color name="colorPrimary">#2196F3</color> <!-- Plava boja -->
-    <color name="colorPrimaryDark">#1976D2</color> <!-- Tamnija plava -->
-    <color name="colorAccent">#64B5F6</color> <!-- Svijetla plava -->
+    <!-- Light Theme Colors -->
+    <color name="md_theme_light_primary">#6750A4</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#EADDFF</color>
+    <color name="md_theme_light_onPrimaryContainer">#21005D</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="colorPrimary">#6750A4</color> <!-- ili neka druga tvoja glavna boja -->
+    <color name="red">#FF0000</color>
+
 </resources>
