@@ -1,4 +1,4 @@
-package ba.sum.fpmoz.studytrack
+package ba.sum.fpmoz.studytrack.Adapters
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -12,6 +12,7 @@ import ba.sum.fpmoz.studytrack.model.Exam
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import ba.sum.fpmoz.studytrack.R
 
 class ExamsFragment : Fragment() {
 
@@ -177,4 +178,3 @@ class ExamsFragment : Fragment() {
             .show()
     }
 }
-

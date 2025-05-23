@@ -1,13 +1,17 @@
-package ba.sum.fpmoz.studytrack
+package ba.sum.fpmoz.studytrack.Fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import ba.sum.fpmoz.studytrack.LoginActivity
+import ba.sum.fpmoz.studytrack.R
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

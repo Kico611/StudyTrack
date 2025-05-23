@@ -2,30 +2,46 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tasksFragment">
+    app:startDestination="@id/subjectsFragment">
 
     <fragment
-        android:id="@+id/tasksFragment"
-        android:name="ba.sum.fpmoz.studytrack.TasksFragment"
-        android:label="Zadaci" />
+        android:id="@+id/subjectsFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.SubjectsFragment"
+        android:label="Kolegiji" >
+        <action
+            android:id="@+id/action_subjectsFragment_to_taskFragment"
+            app:destination="@id/taskFragment" >
+            <argument
+                android:name="subjectId"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.TasksFragment"
+        android:label="Zadaci" >
+        <argument
+            android:name="subjectId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/examsFragment"
-        android:name="ba.sum.fpmoz.studytrack.ExamsFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.ExamsFragment"
         android:label="Ispiti" />
 
     <fragment
         android:id="@+id/notesFragment"
-        android:name="ba.sum.fpmoz.studytrack.NotesFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.NotesFragment"
         android:label="Bilješke" />
 
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="ba.sum.fpmoz.studytrack.CalendarFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.CalendarFragment"
         android:label="Kalendar" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ba.sum.fpmoz.studytrack.ProfileFragment"
+        android:name="ba.sum.fpmoz.studytrack.Fragments.ProfileFragment"
         android:label="Profil" />
 </navigation>

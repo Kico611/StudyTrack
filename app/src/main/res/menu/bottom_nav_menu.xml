@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/tasksFragment"
+        android:id="@+id/subjectsFragment"
         android:icon="@drawable/ic_home"
-        android:title="Zadaci" />
+        android:title="Kolegiji" />
     <item
         android:id="@+id/examsFragment"
         android:icon="@drawable/ic_exams"

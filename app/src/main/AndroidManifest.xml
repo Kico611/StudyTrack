@@ -15,16 +15,16 @@
         android:theme="@style/Theme.StudyTrack"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileFragment"
+            android:name=".Fragments.ProfileFragment"
             android:exported="false" />
         <activity
-            android:name=".CalendarFragment"
+            android:name=".Fragments.CalendarFragment"
             android:exported="false" />
         <activity
-            android:name=".NotesFragment"
+            android:name=".Fragments.NotesFragment"
             android:exported="false" />
         <activity
-            android:name=".ExamsFragment"
+            android:name=".Fragments.ExamsFragment"
             android:exported="false" />
         <activity
             android:name=".TasksFragment"

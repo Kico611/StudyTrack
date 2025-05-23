@@ -4,37 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ExamsFragment">
+    tools:context=".Fragments.SubjectsFragment">
 
-    <!-- RecyclerView za ispite -->
+    <!-- RecyclerView za prikaz kolegija -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/examsRecyclerView"
+        android:id="@+id/subjectsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="8dp"
-        android:contentDescription="Lista ispita"
-        tools:listitem="@layout/exam_item"
+        android:contentDescription="Lista kolegija"
+        tools:listitem="@layout/item_subject"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Gumb za dodavanje ispita -->
+    <!-- Floating gumb za dodavanje kolegija -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addExamButton"
+        android:id="@+id/addSubjectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="Dodaj ispit"
+        android:contentDescription="Dodaj kolegij"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/white"
         app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Navigacija -->
+    <!-- Bottom navigacija -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
