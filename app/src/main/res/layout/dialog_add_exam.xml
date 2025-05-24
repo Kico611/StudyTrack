@@ -8,10 +8,11 @@
     android:elevation="8dp"
     android:clipToPadding="false">
 
-    <EditText
-        android:id="@+id/examSubjectEditText"
+    <TextView
+        android:id="@+id/examSubjectDisplayTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:hint="Predmet"
         android:background="@drawable/bg_rounded_edittext"
         android:padding="14dp"
@@ -19,7 +20,20 @@
         android:textColorHint="#8A8A8A"
         android:textSize="16sp"
         android:inputType="textCapWords"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="8dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="horizontal">
+
+        <LinearLayout
+            android:id="@+id/subjectsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
     <EditText
         android:id="@+id/examDateEditText"
@@ -34,7 +48,7 @@
         android:textColor="#212121"
         android:textColorHint="#8A8A8A"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/examNotesEditText"
@@ -47,6 +61,6 @@
         android:textColorHint="#8A8A8A"
         android:textSize="16sp"
         android:inputType="textMultiLine"
-        android:minLines="3"/>
+        android:minLines="3" />
 
 </LinearLayout>

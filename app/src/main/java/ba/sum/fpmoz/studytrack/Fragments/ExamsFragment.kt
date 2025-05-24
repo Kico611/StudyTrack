@@ -1,13 +1,19 @@
-package ba.sum.fpmoz.studytrack.Adapters
+package ba.sum.fpmoz.studytrack.Fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ba.sum.fpmoz.studytrack.Adapters.ExamAdapter
 import ba.sum.fpmoz.studytrack.model.Exam
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -72,9 +78,38 @@ class ExamsFragment : Fragment() {
 
     private fun showAddDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_exam, null)
-        val subjectInput = dialogView.findViewById<EditText>(R.id.examSubjectEditText)
+
+        // Umjesto EditText, koristi TextView za prikaz odabranog predmeta
+        val subjectDisplay = dialogView.findViewById<TextView>(R.id.examSubjectDisplayTextView)
         val dateInput = dialogView.findViewById<EditText>(R.id.examDateEditText)
         val notesInput = dialogView.findViewById<EditText>(R.id.examNotesEditText)
+        val subjectsContainer = dialogView.findViewById<LinearLayout>(R.id.subjectsContainer)
+
+        var selectedSubject: String? = null
+
+        subjectsContainer.removeAllViews()
+
+        FirebaseFirestore.getInstance()
+            .collection("subjects")
+            .whereEqualTo("userId", auth.currentUser?.uid)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                for (doc in snapshot) {
+                    val subjectName = doc["name"].toString()
+
+                    val button = Button(requireContext()).apply {
+                        text = subjectName
+                        setOnClickListener {
+                            selectedSubject = subjectName
+                            subjectDisplay.text = subjectName  // prikazi odabrani predmet
+                        }
+                    }
+                    subjectsContainer.addView(button)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Greška pri učitavanju predmeta", Toast.LENGTH_SHORT).show()
+            }
 
         dateInput.apply {
             isFocusable = false
@@ -95,11 +130,11 @@ class ExamsFragment : Fragment() {
             .setTitle("Novi ispit")
             .setView(dialogView)
             .setPositiveButton("Spremi") { _, _ ->
-                val subject = subjectInput.text.toString().trim()
+                val subject = selectedSubject
                 val date = dateInput.text.toString().trim()
                 val notes = notesInput.text.toString().trim()
 
-                if (subject.isNotEmpty() && date.isNotEmpty()) {
+                if (!subject.isNullOrEmpty() && date.isNotEmpty()) {
                     val newExam = hashMapOf(
                         "subject" to subject,
                         "date" to date,
@@ -115,16 +150,17 @@ class ExamsFragment : Fragment() {
                             Toast.makeText(requireContext(), "Greška pri dodavanju", Toast.LENGTH_SHORT).show()
                         }
                 } else {
-                    Toast.makeText(requireContext(), "Unesite predmet i datum", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Odaberite predmet i datum", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Odustani", null)
             .show()
     }
 
+
     private fun showEditDialog(exam: Exam) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_exam, null)
-        val subjectInput = dialogView.findViewById<EditText>(R.id.examSubjectEditText)
+        val subjectInput = dialogView.findViewById<TextView>(R.id.examSubjectDisplayTextView)
         val dateInput = dialogView.findViewById<EditText>(R.id.examDateEditText)
         val notesInput = dialogView.findViewById<EditText>(R.id.examNotesEditText)
 
