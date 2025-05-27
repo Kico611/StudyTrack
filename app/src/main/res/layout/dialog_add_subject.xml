@@ -9,48 +9,41 @@
     android:clipToPadding="false">
 
     <EditText
-        android:id="@+id/taskTitleEditText"
+        android:id="@+id/subjectNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Naslov"
+        android:hint="Naziv kolegija"
         android:background="@drawable/bg_rounded_edittext"
-        android:padding="16dp"
+        android:padding="14dp"
         android:textColor="#212121"
         android:textColorHint="#8A8A8A"
         android:textSize="16sp"
-        android:inputType="textCapSentences"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="sans-serif-medium" />
+        android:layout_marginBottom="16dp"
+        android:inputType="textCapWords" />
 
     <EditText
-        android:id="@+id/taskDescriptionEditText"
+        android:id="@+id/subjectProfessorEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Opis"
+        android:hint="Profesor"
         android:background="@drawable/bg_rounded_edittext"
-        android:padding="16dp"
+        android:padding="14dp"
+        android:textColor="#212121"
+        android:textColorHint="#8A8A8A"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/subjectNotesEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bilješke"
+        android:background="@drawable/bg_rounded_edittext"
+        android:padding="14dp"
         android:textColor="#212121"
         android:textColorHint="#8A8A8A"
         android:textSize="16sp"
         android:inputType="textMultiLine"
-        android:minLines="4"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="sans-serif" />
-
-    <EditText
-        android:id="@+id/taskDueDateEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Datum roka"
-        android:focusable="false"
-        android:clickable="true"
-        android:inputType="none"
-        android:background="@drawable/bg_rounded_edittext"
-        android:padding="16dp"
-        android:textColor="#212121"
-        android:textColorHint="#8A8A8A"
-        android:textSize="16sp"
-        android:drawableEnd="@drawable/ic_calendar"
-        android:drawablePadding="12dp"
-        android:fontFamily="sans-serif" />
+        android:minLines="3" />
 </LinearLayout>

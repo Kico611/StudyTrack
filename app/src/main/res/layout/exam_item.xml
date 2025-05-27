@@ -1,55 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="12dp"
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/examSubjectTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Predmet"
+        android:text="Naziv kolegija"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editExamButton"
+        app:layout_constraintBottom_toTopOf="@+id/examDateTextView" />
 
     <TextView
         android:id="@+id/examDateTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Datum"
-        android:textSize="16sp" />
+        android:text="Datum ispita"
+        android:textSize="14sp"
+        android:textColor="#616161"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/examSubjectTextView"
+        app:layout_constraintEnd_toStartOf="@+id/deleteExamButton"
+        app:layout_constraintBottom_toTopOf="@+id/examNotesTextView" />
 
     <TextView
         android:id="@+id/examNotesTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Bilješke"
+        android:text="Bilješke o ispitu"
         android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
+        android:textColor="#757575"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/examDateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/editExamButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:contentDescription="Uredi ispit"
+        android:padding="4dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/deleteExamButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/editExamButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_edit"
-            android:contentDescription="Uredi"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+    <ImageButton
+        android:id="@+id/deleteExamButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:contentDescription="Obriši ispit"
+        android:padding="4dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/deleteExamButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_delete"
-            android:contentDescription="Obriši"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

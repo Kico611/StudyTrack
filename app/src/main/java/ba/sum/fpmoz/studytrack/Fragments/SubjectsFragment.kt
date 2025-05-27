@@ -59,14 +59,12 @@ class SubjectsFragment : Fragment() {
             .get()
             .addOnSuccessListener { snapshot ->
                 subjectList.clear()
-                if (snapshot.isEmpty) {
-                    return@addOnSuccessListener
-                }
+                if (snapshot.isEmpty) return@addOnSuccessListener
 
                 val subjectsTemp = mutableListOf<Subject>()
                 val tasksCollection = db.collection("tasks")
-
                 var processedCount = 0
+
                 for (doc in snapshot) {
                     val subjectId = doc.id
                     val name = doc["name"].toString()
@@ -99,25 +97,31 @@ class SubjectsFragment : Fragment() {
     }
 
     private fun showAddSubjectDialog() {
-        val input = EditText(requireContext())
-        input.hint = "Naziv predmeta"
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_subject, null)
+        val nameInput = dialogView.findViewById<EditText>(R.id.subjectNameEditText)
+        val notesInput = dialogView.findViewById<EditText>(R.id.subjectNotesEditText)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Dodaj predmet")
-            .setView(input)
+            .setTitle("Dodaj kolegij")
+            .setView(dialogView)
             .setPositiveButton("Spremi") { _, _ ->
-                val name = input.text.toString().trim()
+                val name = nameInput.text.toString().trim()
+                val notes = notesInput.text.toString().trim()
+
                 if (name.isNotEmpty()) {
                     val newSubject = hashMapOf(
                         "name" to name,
+                        "notes" to notes,
                         "userId" to auth.currentUser?.uid
                     )
                     db.collection("subjects")
                         .add(newSubject)
                         .addOnSuccessListener {
-                            Toast.makeText(context, "Predmet dodan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Kolegij dodan", Toast.LENGTH_SHORT).show()
                             loadSubjects()
                         }
+                } else {
+                    Toast.makeText(context, "Naziv kolegija je obavezan", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Odustani", null)
@@ -125,21 +129,34 @@ class SubjectsFragment : Fragment() {
     }
 
     private fun showEditSubjectDialog(subject: Subject) {
-        val input = EditText(requireContext())
-        input.setText(subject.name)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_subject, null)
+        val nameInput = dialogView.findViewById<EditText>(R.id.subjectNameEditText)
+        val notesInput = dialogView.findViewById<EditText>(R.id.subjectNotesEditText)
+
+        nameInput.setText(subject.name)
+
+        // Ako već koristiš "notes" u Subject modelu, ovdje ga popuni
+        // notesInput.setText(subject.notes)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Uredi predmet")
-            .setView(input)
+            .setTitle("Uredi kolegij")
+            .setView(dialogView)
             .setPositiveButton("Spremi") { _, _ ->
-                val newName = input.text.toString().trim()
+                val newName = nameInput.text.toString().trim()
+                val newNotes = notesInput.text.toString().trim()
+
                 if (newName.isNotEmpty()) {
                     db.collection("subjects").document(subject.id)
-                        .update("name", newName)
+                        .update(mapOf(
+                            "name" to newName,
+                            "notes" to newNotes
+                        ))
                         .addOnSuccessListener {
-                            Toast.makeText(context, "Predmet ažuriran", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Kolegij ažuriran", Toast.LENGTH_SHORT).show()
                             loadSubjects()
                         }
+                } else {
+                    Toast.makeText(context, "Naziv kolegija je obavezan", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Odustani", null)
@@ -148,13 +165,13 @@ class SubjectsFragment : Fragment() {
 
     private fun deleteSubject(subject: Subject) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Brisanje predmeta")
+            .setTitle("Brisanje kolegija")
             .setMessage("Jeste li sigurni da želite obrisati '${subject.name}'?")
             .setPositiveButton("Da") { _, _ ->
                 db.collection("subjects").document(subject.id)
                     .delete()
                     .addOnSuccessListener {
-                        Toast.makeText(context, "Predmet obrisan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Kolegij obrisan", Toast.LENGTH_SHORT).show()
                         loadSubjects()
                     }
             }

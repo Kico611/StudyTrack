@@ -1,6 +1,7 @@
 package ba.sum.fpmoz.studytrack.Fragments
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.navigation.fragment.navArgs
 import ba.sum.fpmoz.studytrack.R
+import java.util.Calendar
 
 class TasksFragment : Fragment() {
 
@@ -84,27 +86,57 @@ class TasksFragment : Fragment() {
     }
 
     private fun showAddTaskDialog() {
-        val input = EditText(requireContext())
-        input.hint = "Naziv zadatka"
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_task, null)
+
+        val titleEditText = dialogView.findViewById<EditText>(R.id.taskTitleEditText)
+        val descriptionEditText = dialogView.findViewById<EditText>(R.id.taskDescriptionEditText)
+        val dueDateEditText = dialogView.findViewById<EditText>(R.id.taskDueDateEditText)
+
+        // Klik na polje za datum otvara DatePicker
+        dueDateEditText.setOnClickListener {
+            val today = Calendar.getInstance()
+            val year = today.get(Calendar.YEAR)
+            val month = today.get(Calendar.MONTH)
+            val day = today.get(Calendar.DAY_OF_MONTH)
+
+            val datePicker = DatePickerDialog(requireContext(), { _, y, m, d ->
+                val selectedDate = String.format("%02d.%02d.%d", d, m + 1, y)
+                dueDateEditText.setText(selectedDate)
+            }, year, month, day)
+
+            datePicker.show()
+        }
 
         AlertDialog.Builder(requireContext())
             .setTitle("Dodaj zadatak")
-            .setView(input)
+            .setView(dialogView)
             .setPositiveButton("Spremi") { _, _ ->
-                val title = input.text.toString().trim()
-                if (title.isNotEmpty()) {
-                    val newTask = hashMapOf(
-                        "title" to title,
-                        "subjectId" to args.subjectId,
-                        "completed" to false
-                    )
-                    db.collection("tasks")
-                        .add(newTask)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Zadatak dodan", Toast.LENGTH_SHORT).show()
-                            loadTasks()
-                        }
+                val title = titleEditText.text.toString().trim()
+                val description = descriptionEditText.text.toString().trim()
+                val dueDate = dueDateEditText.text.toString().trim()
+
+                if (title.isEmpty()) {
+                    Toast.makeText(context, "Naslov je obavezan", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
                 }
+
+                val newTask = hashMapOf(
+                    "title" to title,
+                    "description" to description,
+                    "dueDate" to dueDate,
+                    "subjectId" to args.subjectId,
+                    "completed" to false
+                )
+
+                db.collection("tasks")
+                    .add(newTask)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Zadatak dodan", Toast.LENGTH_SHORT).show()
+                        loadTasks()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Greška pri dodavanju zadatka", Toast.LENGTH_SHORT).show()
+                    }
             }
             .setNegativeButton("Odustani", null)
             .show()
