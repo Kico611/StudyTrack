@@ -19,6 +19,7 @@ class TasksAdapter(
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.taskTitle)
+        val dueDate: TextView = view.findViewById(R.id.taskDueDate) // dodano
         val checkBox: CheckBox = view.findViewById(R.id.taskCheckbox)
         val editButton: ImageButton = view.findViewById(R.id.editTaskButton)
         val deleteButton: ImageButton = view.findViewById(R.id.deleteTaskButton)
@@ -32,6 +33,7 @@ class TasksAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = tasks[position]
         holder.title.text = task.title
+        holder.dueDate.text = "Rok: ${task.dueDate}" // dodano
         holder.checkBox.isChecked = task.completed
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->

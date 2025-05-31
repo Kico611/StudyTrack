@@ -30,7 +30,6 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 google-signin = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleSignIn" } # ✅ Dodano za klasični Google Sign-In
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 firebase-inappmessaging = { group = "com.google.firebase", name = "firebase-inappmessaging", version.ref = "firebaseInappmessaging" }
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

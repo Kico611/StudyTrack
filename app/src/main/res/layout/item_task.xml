@@ -18,6 +18,12 @@
         android:paddingStart="8dp"
         android:text="Naziv zadatka" />
 
+    <TextView
+        android:id="@+id/taskDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp" />
+
     <ImageButton
         android:id="@+id/editTaskButton"
         android:layout_width="wrap_content"

@@ -67,19 +67,34 @@ class ProfileFragment : Fragment() {
             db.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        nameTextView.text = document.getString("fullName") ?: "Ime i prezime"
-                        usernameTextView.text = document.getString("username") ?: "Korisničko ime"
-                        emailTextView.text = userEmail ?: "Email"
-                        registrationDateTextView.text = document.getString("registrationDate") ?: "Datum registracije"
+                        val firstName = document.getString("firstName") ?: ""
+                        val lastName = document.getString("lastName") ?: ""
+                        val fullName = "$firstName $lastName"
 
+                        nameTextView.text = fullName
+                        usernameTextView.text = "@${firstName.lowercase()}.${lastName.lowercase()}"
+                        emailTextView.text = document.getString("email") ?: userEmail ?: "Email"
+
+                        // Ako imaš datum registracije (npr. kao timestamp), konvertiraj ga u string
+                        val registrationTimestamp = document.getTimestamp("registrationDate")
+                        registrationDateTextView.text = if (registrationTimestamp != null) {
+                            val date = registrationTimestamp.toDate()
+                            android.text.format.DateFormat.format("dd.MM.yyyy", date).toString()
+                        } else {
+                            "Datum registracije nije dostupan"
+                        }
+
+                        // Profilna slika (ako postoji)
                         val profileImageUrl = document.getString("profileImageUrl")
                         if (!profileImageUrl.isNullOrEmpty()) {
                             Glide.with(this)
                                 .load(profileImageUrl)
                                 .into(profileImageView)
                         } else {
-                            profileImageView.setImageResource(R.drawable.ic_profile_placeholder) // zamijeni ako imaš defaultnu sliku
+                            profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
                         }
+                    } else {
+                        Toast.makeText(requireContext(), "Korisnički dokument ne postoji", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener {

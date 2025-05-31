@@ -66,7 +66,8 @@ class TasksFragment : Fragment() {
                         id = doc.id,
                         subjectId = doc.getString("subjectId") ?: "",
                         title = doc.getString("title") ?: "",
-                        completed = doc.getBoolean("completed") ?: false
+                        completed = doc.getBoolean("completed") ?: false,
+                        dueDate = doc.getString("dueDate") ?: ""
                     )
                     taskList.add(task)
                 }
@@ -87,24 +88,23 @@ class TasksFragment : Fragment() {
 
     private fun showAddTaskDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_task, null)
-
         val titleEditText = dialogView.findViewById<EditText>(R.id.taskTitleEditText)
         val descriptionEditText = dialogView.findViewById<EditText>(R.id.taskDescriptionEditText)
-        val dueDateEditText = dialogView.findViewById<EditText>(R.id.taskDueDateEditText)
+        val dueDateEditText = dialogView.findViewById<EditText>(R.id.taskDueDate)
 
-        // Klik na polje za datum otvara DatePicker
+        // Otvori DatePicker kada korisnik klikne na dueDateEditText
         dueDateEditText.setOnClickListener {
-            val today = Calendar.getInstance()
-            val year = today.get(Calendar.YEAR)
-            val month = today.get(Calendar.MONTH)
-            val day = today.get(Calendar.DAY_OF_MONTH)
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePicker = DatePickerDialog(requireContext(), { _, y, m, d ->
-                val selectedDate = String.format("%02d.%02d.%d", d, m + 1, y)
+            val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = String.format("%02d.%02d.%d", selectedDay, selectedMonth + 1, selectedYear)
                 dueDateEditText.setText(selectedDate)
             }, year, month, day)
 
-            datePicker.show()
+            datePickerDialog.show()
         }
 
         AlertDialog.Builder(requireContext())
@@ -115,32 +115,25 @@ class TasksFragment : Fragment() {
                 val description = descriptionEditText.text.toString().trim()
                 val dueDate = dueDateEditText.text.toString().trim()
 
-                if (title.isEmpty()) {
-                    Toast.makeText(context, "Naslov je obavezan", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-
-                val newTask = hashMapOf(
-                    "title" to title,
-                    "description" to description,
-                    "dueDate" to dueDate,
-                    "subjectId" to args.subjectId,
-                    "completed" to false
-                )
-
-                db.collection("tasks")
-                    .add(newTask)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "Zadatak dodan", Toast.LENGTH_SHORT).show()
+                if (title.isNotEmpty()) {
+                    val task = hashMapOf(
+                        "title" to title,
+                        "description" to description,
+                        "dueDate" to dueDate,
+                        "completed" to false,
+                        "subjectId" to args.subjectId
+                    )
+                    db.collection("tasks").add(task).addOnSuccessListener {
                         loadTasks()
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Greška pri dodavanju zadatka", Toast.LENGTH_SHORT).show()
-                    }
+                } else {
+                    Toast.makeText(requireContext(), "Naslov ne smije biti prazan", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Odustani", null)
             .show()
     }
+
 
     private fun showEditTaskDialog(task: Task) {
         val input = EditText(requireContext())

@@ -65,4 +65,8 @@ dependencies {
 
     // ✅ Material components
     implementation("com.google.android.material:material:1.12.0")
+
+    implementation("com.github.sundeepk:compact-calendar-view:3.0.0")
+
+
 }
