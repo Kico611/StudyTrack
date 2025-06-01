@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ba.sum.fpmoz.studytrack.Adapters.NotesAdapter
 import ba.sum.fpmoz.studytrack.R
 import ba.sum.fpmoz.studytrack.model.Note
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.UUID
 
@@ -25,6 +26,7 @@ class NotesFragment : Fragment() {
     private val notesList = mutableListOf<Note>()
     private lateinit var adapter: NotesAdapter
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -38,21 +40,29 @@ class NotesFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewNotes)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         adapter = NotesAdapter(notesList,
             onEditClick = { note -> showEditDialog(note) },
             onDeleteClick = { note -> deleteNote(note) }
         )
         recyclerView.adapter = adapter
 
-        loadNotes()
+        val currentUser = auth.currentUser
+        val userId = currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(requireContext(), "Greška: korisnik nije prijavljen", Toast.LENGTH_SHORT).show()
+            return view
+        }
+
+        loadNotes(userId)
 
         buttonAddNote.setOnClickListener {
             val noteText = editTextNewNote.text.toString().trim()
             if (noteText.isNotEmpty()) {
                 val noteId = UUID.randomUUID().toString()
                 val note = Note(id = noteId, text = noteText)
-                db.collection("notes").document(noteId).set(note)
+
+                db.collection("users").document(userId).collection("notes").document(noteId).set(note)
                     .addOnSuccessListener {
                         notesList.add(0, note)
                         adapter.notifyItemInserted(0)
@@ -69,7 +79,9 @@ class NotesFragment : Fragment() {
     }
 
     private fun deleteNote(note: Note) {
-        db.collection("notes").document(note.id).delete()
+        val userId = auth.currentUser?.uid ?: return
+
+        db.collection("users").document(userId).collection("notes").document(note.id).delete()
             .addOnSuccessListener {
                 val index = notesList.indexOfFirst { it.id == note.id }
                 if (index != -1) {
@@ -106,8 +118,10 @@ class NotesFragment : Fragment() {
     }
 
     private fun updateNoteText(note: Note, newText: String) {
+        val userId = auth.currentUser?.uid ?: return
         val updatedNote = note.copy(text = newText)
-        db.collection("notes").document(note.id).set(updatedNote)
+
+        db.collection("users").document(userId).collection("notes").document(note.id).set(updatedNote)
             .addOnSuccessListener {
                 val index = notesList.indexOfFirst { it.id == note.id }
                 if (index != -1) {
@@ -121,16 +135,15 @@ class NotesFragment : Fragment() {
             }
     }
 
-
-    private fun loadNotes() {
-        db.collection("notes").get()
+    private fun loadNotes(userId: String) {
+        db.collection("users").document(userId).collection("notes").get()
             .addOnSuccessListener { result ->
                 notesList.clear()
                 for (document in result) {
                     val note = document.toObject(Note::class.java)
                     notesList.add(note)
                 }
-                notesList.reverse() // zadnje dodani na vrh
+                notesList.reverse()
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
