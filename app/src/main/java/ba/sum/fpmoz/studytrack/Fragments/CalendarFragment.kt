@@ -1,4 +1,5 @@
 package ba.sum.fpmoz.studytrack.Fragments
+
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
@@ -6,24 +7,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import ba.sum.fpmoz.studytrack.R
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
-import ba.sum.fpmoz.studytrack.R
-import android.widget.TextView
-
 
 class CalendarFragment : Fragment() {
 
     private lateinit var compactCalendarView: CompactCalendarView
     private val db = FirebaseFirestore.getInstance()
     private lateinit var monthYearTextView: TextView
-
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+
+    private val currentUserId: String?
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,6 @@ class CalendarFragment : Fragment() {
         monthYearTextView = view.findViewById(R.id.monthYearTextView)
         compactCalendarView = view.findViewById(R.id.compactCalendarView)
 
-        // Prikaži početni mjesec i godinu
         updateMonthYearTextView(monthYearTextView, compactCalendarView.firstDayOfCurrentMonth)
 
         compactCalendarView.setListener(object : CompactCalendarView.CompactCalendarViewListener {
@@ -49,7 +51,6 @@ class CalendarFragment : Fragment() {
                     for (event in events) {
                         sb.append(event.data.toString()).append("\n\n")
                     }
-                    // Prikaz u AlertDialogu
                     AlertDialog.Builder(requireContext())
                         .setTitle("Događaji za ${SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(dateClicked)}")
                         .setMessage(sb.toString().trim())
@@ -65,9 +66,12 @@ class CalendarFragment : Fragment() {
             }
         })
 
-
-        loadExamDates()
-        loadTaskDueDates()
+        if (currentUserId != null) {
+            loadExamDates(currentUserId!!)
+            loadTaskDueDates(currentUserId!!)
+        } else {
+            Toast.makeText(requireContext(), "Korisnik nije prijavljen", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun updateMonthYearTextView(textView: TextView, date: Date) {
@@ -78,8 +82,9 @@ class CalendarFragment : Fragment() {
         textView.text = formatted
     }
 
-    private fun loadExamDates() {
+    private fun loadExamDates(userId: String) {
         db.collection("exams")
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
                 for (doc in documents) {
@@ -93,21 +98,20 @@ class CalendarFragment : Fragment() {
                             null
                         }
                         date?.let {
-                            val eventColor = Color.RED
-                            val eventData = "Ispit - Predmet: $subject\nBilješke: $note"
-                            val event = Event(eventColor, it.time, eventData)
+                            val event = Event(Color.RED, it.time, "Ispit - Predmet: $subject\nBilješke: $note")
                             compactCalendarView.addEvent(event)
                         }
                     }
                 }
             }
             .addOnFailureListener { exception ->
-                Log.e("CalendarFragment", "Error loading exams", exception)
+                Log.e("CalendarFragment", "Greška pri učitavanju ispita", exception)
             }
     }
 
-    private fun loadTaskDueDates() {
+    private fun loadTaskDueDates(userId: String) {
         db.collection("tasks")
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
                 for (doc in documents) {
@@ -123,17 +127,15 @@ class CalendarFragment : Fragment() {
                             null
                         }
                         date?.let {
-                            val eventColor = Color.BLUE
                             val status = if (completed) "Dovršeno" else "Nije dovršeno"
-                            val eventData = "Zadatak: $title\nOpis: $description\nStatus: $status"
-                            val event = Event(eventColor, it.time, eventData)
+                            val event = Event(Color.BLUE, it.time, "Zadatak: $title\nOpis: $description\nStatus: $status")
                             compactCalendarView.addEvent(event)
                         }
                     }
                 }
             }
             .addOnFailureListener { exception ->
-                Log.e("CalendarFragment", "Error loading tasks", exception)
+                Log.e("CalendarFragment", "Greška pri učitavanju zadataka", exception)
             }
     }
 }
