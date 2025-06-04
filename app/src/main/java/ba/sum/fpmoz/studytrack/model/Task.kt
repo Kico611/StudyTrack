@@ -5,5 +5,6 @@ data class Task(
     var subjectId: String = "",
     var title: String = "",
     var completed: Boolean = false,
-    var dueDate: String = ""
+    var dueDate: String = "",
+    var userId: String = ""
 )

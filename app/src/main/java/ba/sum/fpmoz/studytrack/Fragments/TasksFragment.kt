@@ -56,8 +56,11 @@ class TasksFragment : Fragment() {
     }
 
     private fun loadTasks() {
+        val currentUserId = auth.currentUser?.uid ?: return
+
         db.collection("tasks")
             .whereEqualTo("subjectId", args.subjectId)
+            .whereEqualTo("userId", currentUserId)
             .get()
             .addOnSuccessListener { snapshot ->
                 taskList.clear()
@@ -67,7 +70,8 @@ class TasksFragment : Fragment() {
                         subjectId = doc.getString("subjectId") ?: "",
                         title = doc.getString("title") ?: "",
                         completed = doc.getBoolean("completed") ?: false,
-                        dueDate = doc.getString("dueDate") ?: ""
+                        dueDate = doc.getString("dueDate") ?: "",
+                        userId = doc.getString("userId") ?: ""
                     )
                     taskList.add(task)
                 }
@@ -92,7 +96,6 @@ class TasksFragment : Fragment() {
         val descriptionEditText = dialogView.findViewById<EditText>(R.id.taskDescriptionEditText)
         val dueDateEditText = dialogView.findViewById<EditText>(R.id.taskDueDate)
 
-        // Otvori DatePicker kada korisnik klikne na dueDateEditText
         dueDateEditText.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
@@ -114,14 +117,16 @@ class TasksFragment : Fragment() {
                 val title = titleEditText.text.toString().trim()
                 val description = descriptionEditText.text.toString().trim()
                 val dueDate = dueDateEditText.text.toString().trim()
+                val currentUserId = auth.currentUser?.uid
 
-                if (title.isNotEmpty()) {
+                if (title.isNotEmpty() && currentUserId != null) {
                     val task = hashMapOf(
                         "title" to title,
                         "description" to description,
                         "dueDate" to dueDate,
                         "completed" to false,
-                        "subjectId" to args.subjectId
+                        "subjectId" to args.subjectId,
+                        "userId" to currentUserId
                     )
                     db.collection("tasks").add(task).addOnSuccessListener {
                         loadTasks()
@@ -133,7 +138,6 @@ class TasksFragment : Fragment() {
             .setNegativeButton("Odustani", null)
             .show()
     }
-
 
     private fun showEditTaskDialog(task: Task) {
         val input = EditText(requireContext())

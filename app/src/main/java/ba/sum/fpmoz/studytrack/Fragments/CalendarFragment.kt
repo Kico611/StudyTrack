@@ -48,19 +48,19 @@ class CalendarFragment : Fragment() {
                 val events = compactCalendarView.getEvents(dateClicked)
                 if (events.isNotEmpty()) {
                     val sb = StringBuilder()
-                    for (event in events) {
-                        sb.append(event.data.toString()).append("\n\n")
+                    for ((index, event) in events.withIndex()) {
+                        sb.append("• ").append(event.data.toString().trim())
+                        if (index < events.size - 1) sb.append("\n\n")
                     }
                     AlertDialog.Builder(requireContext())
                         .setTitle("Događaji za ${SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(dateClicked)}")
-                        .setMessage(sb.toString().trim())
+                        .setMessage(sb.toString())
                         .setPositiveButton("OK", null)
                         .show()
                 } else {
                     Toast.makeText(requireContext(), "Nema događaja za ovaj datum", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
                 updateMonthYearTextView(monthYearTextView, firstDayOfNewMonth)
             }

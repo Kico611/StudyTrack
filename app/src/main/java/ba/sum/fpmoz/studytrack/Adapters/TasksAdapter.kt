@@ -35,7 +35,6 @@ class TasksAdapter(
         holder.title.text = task.title
         holder.dueDate.text = "Rok: ${task.dueDate}" // dodano
         holder.checkBox.isChecked = task.completed
-
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             onCheckChanged(task, isChecked)
         }
