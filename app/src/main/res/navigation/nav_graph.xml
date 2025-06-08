@@ -8,6 +8,7 @@
         android:id="@+id/subjectsFragment"
         android:name="ba.sum.fpmoz.studytrack.Fragments.SubjectsFragment"
         android:label="Kolegiji" >
+
         <action
             android:id="@+id/action_subjectsFragment_to_taskFragment"
             app:destination="@id/taskFragment" >
@@ -15,7 +16,15 @@
                 android:name="subjectId"
                 app:argType="string" />
         </action>
+
+        <!-- Globalni action koji omogućuje da kad se navigira nazad na SubjectsFragment, briše back stack -->
+        <action
+            android:id="@+id/action_global_subjectsFragment"
+            app:destination="@id/subjectsFragment"
+            app:popUpTo="@id/subjectsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+
     <fragment
         android:id="@+id/taskFragment"
         android:name="ba.sum.fpmoz.studytrack.Fragments.TasksFragment"

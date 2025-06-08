@@ -68,5 +68,8 @@ dependencies {
 
     implementation("com.github.sundeepk:compact-calendar-view:3.0.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.1")
+
+
 
 }

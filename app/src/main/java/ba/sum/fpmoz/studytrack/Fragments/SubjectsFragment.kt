@@ -54,23 +54,30 @@ class SubjectsFragment : Fragment() {
     }
 
     private fun loadSubjects() {
+        val currentUser = auth.currentUser ?: return
+        subjectList.clear()
+
+        val tasksCollection = db.collection("tasks")
         db.collection("subjects")
-            .whereEqualTo("userId", auth.currentUser?.uid)
+            .whereEqualTo("userId", currentUser.uid)
             .get()
             .addOnSuccessListener { snapshot ->
-                subjectList.clear()
-                if (snapshot.isEmpty) return@addOnSuccessListener
+                if (snapshot.isEmpty) {
+                    adapter.notifyDataSetChanged()
+                    return@addOnSuccessListener
+                }
 
-                val subjectsTemp = mutableListOf<Subject>()
-                val tasksCollection = db.collection("tasks")
-                var processedCount = 0
+                val tempSubjects = mutableListOf<Subject>()
+                val totalSubjects = snapshot.size()
+                var processed = 0
 
                 for (doc in snapshot) {
                     val subjectId = doc.id
-                    val name = doc["name"].toString()
-                    val userId = doc["userId"].toString()
+                    val name = doc.getString("name") ?: ""
+                    val userId = doc.getString("userId") ?: ""
 
                     tasksCollection.whereEqualTo("subjectId", subjectId)
+                        .whereEqualTo("userId", currentUser.uid)
                         .get()
                         .addOnSuccessListener { tasksSnapshot ->
                             val totalTasks = tasksSnapshot.size()
@@ -83,12 +90,20 @@ class SubjectsFragment : Fragment() {
                                 userId = userId,
                                 progress = progress
                             )
-                            subjectsTemp.add(subject)
+                            tempSubjects.add(subject)
+                            processed++
 
-                            processedCount++
-                            if (processedCount == snapshot.size()) {
+                            if (processed == totalSubjects) {
                                 subjectList.clear()
-                                subjectList.addAll(subjectsTemp.sortedBy { it.name })
+                                subjectList.addAll(tempSubjects.sortedBy { it.name })
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                        .addOnFailureListener {
+                            processed++
+                            if (processed == totalSubjects) {
+                                subjectList.clear()
+                                subjectList.addAll(tempSubjects.sortedBy { it.name })
                                 adapter.notifyDataSetChanged()
                             }
                         }

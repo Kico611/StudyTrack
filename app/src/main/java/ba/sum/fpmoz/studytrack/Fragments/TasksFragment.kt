@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ class TasksFragment : Fragment() {
     private val auth = FirebaseAuth.getInstance()
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyTextView: TextView
     private lateinit var adapter: TasksAdapter
     private val taskList = mutableListOf<Task>()
 
@@ -38,6 +40,8 @@ class TasksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view.findViewById(R.id.tasksRecyclerView)
+        emptyTextView = view.findViewById(R.id.emptyTextView)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = TasksAdapter(
@@ -77,6 +81,15 @@ class TasksFragment : Fragment() {
                 }
                 adapter.notifyDataSetChanged()
                 updateSubjectProgress()
+
+                // Pokaži ili sakrij poruku o praznoj listi
+                if (taskList.isEmpty()) {
+                    emptyTextView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                } else {
+                    emptyTextView.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
             }
     }
 
